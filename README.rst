@@ -37,6 +37,9 @@ Similar Cookiecutter Templates
 * `audreyr/cookiecutter-pypackage`_: The original pypackage, uses unittest
 for testing and other minor changes.
 
+* `Nekroze/cookiecutter-pypackage`_:  The version that this is based off of using tox and pytest
+  differently
+
 Fork This
 ~~~~~~~~~
 
@@ -52,7 +55,6 @@ I also accept pull requests on this, if they're small, atomic, and if they
 make my own packaging experience better.
 
 
-.. _Travis-CI: http://travis-ci.org/
 .. _Tox: http://testrun.org/tox/
 .. _Sphinx: http://sphinx-doc.org/
 .. _ReadTheDocs: https://readthedocs.org/

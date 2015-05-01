@@ -1,56 +1,84 @@
-.PHONY: help clean clean-pyc clean-build list test test-all coverage docs release sdist
+.PHONY: clean-pyc clean-build docs clean
+
+ifeq ($(OS),Windows_NT)
+DEFTEST:=py27
+else
+DEFTEST:=all
+endif
+ifeq ($(OS),Windows_NT)
+OPEN:=cygstart
+else
+OPEN:=open
+endif
+	
 
 help:
+	@echo "clean - remove all build, test, coverage and Python artifacts"
 	@echo "clean-build - remove build artifacts"
 	@echo "clean-pyc - remove Python file artifacts"
+	@echo "clean-test - remove test and coverage artifacts"
 	@echo "lint - check style with flake8"
 	@echo "test - run tests quickly with the default Python"
-	@echo "testall - run tests on every Python version with tox"
+	@echo "test-all - run tests on every Python version with tox"
 	@echo "coverage - check code coverage quickly with the default Python"
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
-	@echo "release - package and upload a release"
-	@echo "sdist - package"
+	@echo "dist - package"
+	@echo "rpm - bdist_rpm"
+	@echo "install - install the package to the active Python's site-packages"
 
-clean: clean-build clean-pyc
+clean: clean-test clean-build clean-pyc
 
 clean-build:
 	rm -fr build/
 	rm -fr dist/
-	rm -fr *.egg-info
+	rm -fr .eggs/
+	find . -name '*.egg-info' -exec rm -fr {} +
+	find . -name '*.egg' -exec rm -f {} +
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
+	find . -name '__pycache__' -exec rm -fr {} +
+
+clean-test:
+	rm -fr .tox/
+	rm -f .coverage
+	rm -fr htmlcov/
+	rm -f junit-*.xml
 
 lint:
-	flake8 {{ cookiecutter.repo_name }} test
+	flake8 {{cookiecutter.repo_name}} tests
 
-test:
-	py.test
+test: test-$(DEFTEST)
 
 test-all:
 	tox
 
-coverage:
-	coverage run --source {{ cookiecutter.repo_name }} setup.py test
-	coverage report -m
-	coverage html
-	open htmlcov/index.html
+test-py27:
+	tox -e py27
+
+test-py26:
+	tox -e py26
+
+coverage: test
+	$(OPEN) htmlcov/index.html
 
 docs:
-	rm -f docs/{{ cookiecutter.repo_name }}.rst
+	rm -f docs/{{cookiecutter.repo_name}}.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ {{ cookiecutter.repo_name }}
+	sphinx-apidoc -o docs/ {{cookiecutter.repo_name}}
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	open docs/_build/html/index.html
+	$(OPEN) docs/_build/html/index.html
 
-release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
-
-sdist: clean
+dist: clean
 	python setup.py sdist
-	python setup.py bdist_wheel upload
+	python setup.py bdist_wheel
 	ls -l dist
+
+rpm: clean
+	python setup.py bdist_rpm
+
+install: clean
+	python setup.py install

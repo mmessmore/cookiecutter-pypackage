@@ -25,6 +25,9 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+htmlcov
+junit-*.xml
+__pycache__
 
 # Translations
 *.mo
@@ -40,6 +43,3 @@ output/*/index.html
 
 # Sphinx
 docs/_build
-
-# Cookiecutter
-output/
