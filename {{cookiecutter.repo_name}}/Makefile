@@ -22,6 +22,7 @@ help:
 	@echo "test-all - run tests on every Python version with tox"
 	@echo "coverage - check code coverage quickly with the default Python"
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
+	@echo "release - package and upload to pypi server"
 	@echo "dist - package"
 	@echo "rpm - bdist_rpm"
 	@echo "install - install the package to the active Python's site-packages"
@@ -71,6 +72,10 @@ docs:
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(OPEN) docs/_build/html/index.html
+
+release: clean
+	python setup.py sdist upload -r internal
+	python setup.py bdist_wheel upload -r internal
 
 dist: clean
 	python setup.py sdist
