@@ -2,10 +2,10 @@
 	"full_name": "Mike Messmore",
 	"email": "mike@messmore.org",
 	"github_username": "mmessmore",
-	"project_name": "Not your mom",
-	"repo_name": "notyourmom",
-	"project_short_description": "Deploy static HTML sites to S3 with the simple 'alotofeffort' command.",
-	"release_date": "2013-07-10",
-	"year": "2013",
+	"project_name": "stuff",
+	"repo_name": "stuff",
+	"project_short_description": "Stuff about stuff",
+	"release_date": "2017-07-10",
+	"year": "2017",
 	"version": "0.1.0"
 }

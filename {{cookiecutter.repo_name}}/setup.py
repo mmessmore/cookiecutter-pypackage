@@ -9,6 +9,7 @@ except ImportError:
 
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+requires = open('requirements.txt').read().splitlines()
 
 setup(
     name='{{ cookiecutter.repo_name }}',
@@ -23,8 +24,7 @@ setup(
     ],
     package_dir={'{{ cookiecutter.repo_name }}': '{{ cookiecutter.repo_name }}'},
     include_package_data=True,
-    install_requires=[
-    ],
+    install_requires=requires,
     license='MIT',
     zip_safe=False,
     keywords='{{ cookiecutter.repo_name }}',
